@@ -1,0 +1,72 @@
+@model EmployeeCreateViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="container text-center col-sm-12 col-lg-6">
+    <div class="col-12">
+        <h4>Register Employee</h4>
+    </div>
+    <form enctype="multipart/form-data" asp-controller="Home" asp-action="Create" method="POST">
+        <div class="form-group text-left">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control ">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group text-left">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" class="form-control">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group text-left">
+            <label asp-for="Department"></label>
+            <select asp-for="Department" asp-items="Html.GetEnumSelectList<Dept>()" class="form-control">
+                <option value="">Select Department</option>
+            </select>
+            <span asp-validation-for="Department" class="text-danger"></span>
+        </div>
+
+        <div class="form-group text-left">
+            <label asp-for="Photo"></label>
+            <div class="custom-file">
+                <input multiple asp-for="Photo" class="form-control custom-file-input ">
+                <label class="custom-file-label ">Choose File...</label>
+            </div>
+        </div>
+        <div class="text-left">
+            <div asp-validation-summary="All" class="text-danger text-left">
+
+            </div>
+        </div>
+
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary col-5">Create</button>
+        </div>
+        @section Scripts{
+            <script>
+                $(document).ready(function () {
+                    /* Multiple file upload
+                     * 
+                     $('.custom-file-input').on('change', function () {
+                        var fileLabel = $(this).next('.custom-file-label');
+                        var files = $(this)[0].files;
+                        if (files.length > 1) {
+                            fileLabel.html(files.length + ' files selected');
+                        }
+                        else {
+                            fileLabel.html(files[0].name);
+                        }
+                    });
+                     * */
+                    $('.custom-file-input').on('change', function () {
+                        var fileName = $(this).val().split('\\').pop();
+                        $(this).next('.custom-file-label').html(fileName);
+                    })
+                });
+
+            </script>
+         }
+    </form>
+    <div class="form-group">
+      <a class="link text-primary" asp-controller="Home" asp-action="Index">See all employees</a>
+    </div>
+</div>
